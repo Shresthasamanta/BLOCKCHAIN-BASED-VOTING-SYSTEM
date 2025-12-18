@@ -25,6 +25,14 @@ export const mockCandidates = [
     photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop',
     party: 'Stability Alliance',
   },
+  {
+    id: 'c4',
+    name: 'David Park',
+    position: 'CEO Candidate',
+    bio: 'Chief Technology Officer with deep expertise in AI and digital transformation. Advocates for tech-driven growth.',
+    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+    party: 'Digital Forward',
+  },
 ];
 
 export const mockBoardCandidates = [
@@ -56,7 +64,74 @@ export const mockBoardCandidates = [
     bio: 'Environmental sustainability expert. Leading voice in ESG integration and responsible investing.',
     photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop',
   },
+  {
+    id: 'b5',
+    name: 'Robert Kim',
+    position: 'Board Member',
+    bio: 'Former CEO of a Fortune 100 company. Expert in operational excellence and strategic planning.',
+    photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop',
+  },
+  {
+    id: 'b6',
+    name: 'Amanda Foster',
+    position: 'Board Member',
+    bio: 'Healthcare industry veteran with 20+ years experience. Passionate about corporate wellness initiatives.',
+    photo: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&h=400&fit=crop',
+  },
 ];
+
+export const mockPolicyCandidates = [
+  {
+    id: 'policy1',
+    name: 'Remote Work Policy A',
+    position: 'Hybrid Model',
+    bio: '3 days in office, 2 days remote. Maintains team collaboration while offering flexibility.',
+    photo: '',
+  },
+  {
+    id: 'policy2',
+    name: 'Remote Work Policy B',
+    position: 'Fully Remote',
+    bio: 'Complete work-from-anywhere flexibility with quarterly in-person gatherings.',
+    photo: '',
+  },
+  {
+    id: 'policy3',
+    name: 'Remote Work Policy C',
+    position: 'Office First',
+    bio: '4 days in office minimum. Remote work available by manager approval.',
+    photo: '',
+  },
+];
+
+export const mockMergerCandidates = [
+  {
+    id: 'merger1',
+    name: 'Approve Acquisition',
+    position: 'Yes',
+    bio: 'Approve the proposed acquisition of TechStart Inc. for $2.5B, expanding our market presence.',
+    photo: '',
+  },
+  {
+    id: 'merger2',
+    name: 'Reject Acquisition',
+    position: 'No',
+    bio: 'Decline the acquisition and pursue organic growth strategies instead.',
+    photo: '',
+  },
+  {
+    id: 'merger3',
+    name: 'Defer Decision',
+    position: 'Abstain',
+    bio: 'Request additional due diligence and revisit the decision in Q2.',
+    photo: '',
+  },
+];
+
+// Create dates relative to now for realistic demo
+const now = new Date();
+const addDays = (days: number) => new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+const subtractDays = (days: number) => new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
 
 export const mockElections: Election[] = [
   {
@@ -64,8 +139,8 @@ export const mockElections: Election[] = [
     title: '2024 CEO Election',
     description: 'Annual election for the position of Chief Executive Officer. All shareholders with voting rights are eligible to participate.',
     status: 'active',
-    startDate: new Date('2024-01-15'),
-    endDate: new Date('2024-12-31'),
+    startDate: subtractDays(5),
+    endDate: addDays(3),
     candidates: mockCandidates,
     totalVotes: 1247,
     eligibleVoters: 2500,
@@ -76,8 +151,8 @@ export const mockElections: Election[] = [
     title: 'Board of Directors Election',
     description: 'Election for 2 open seats on the Board of Directors. Select up to 2 candidates.',
     status: 'upcoming',
-    startDate: new Date('2025-01-01'),
-    endDate: new Date('2025-01-31'),
+    startDate: addDays(7),
+    endDate: addDays(21),
     candidates: mockBoardCandidates,
     totalVotes: 0,
     eligibleVoters: 2500,
@@ -88,13 +163,84 @@ export const mockElections: Election[] = [
     title: 'Q3 Budget Proposal Vote',
     description: 'Vote on the proposed Q3 budget allocation including R&D expansion and new office facilities.',
     status: 'closed',
-    startDate: new Date('2024-07-01'),
-    endDate: new Date('2024-07-15'),
+    startDate: subtractDays(30),
+    endDate: subtractDays(15),
     candidates: [
       { id: 'p1', name: 'Approve Budget', position: 'Yes', bio: 'Approve the proposed Q3 budget of $45M', photo: '' },
       { id: 'p2', name: 'Reject Budget', position: 'No', bio: 'Reject the proposal and request revision', photo: '' },
     ],
     totalVotes: 2134,
+    eligibleVoters: 2500,
+    createdBy: 'admin',
+  },
+  {
+    id: 'e4',
+    title: 'Remote Work Policy Referendum',
+    description: 'Vote on the company\'s remote work policy for 2025. Choose between hybrid, fully remote, or office-first approaches.',
+    status: 'active',
+    startDate: subtractDays(2),
+    endDate: addDays(5),
+    candidates: mockPolicyCandidates,
+    totalVotes: 892,
+    eligibleVoters: 3200,
+    createdBy: 'admin',
+  },
+  {
+    id: 'e5',
+    title: 'TechStart Inc. Acquisition Vote',
+    description: 'Shareholder vote on the proposed acquisition of TechStart Inc. This strategic acquisition would expand our AI capabilities.',
+    status: 'active',
+    startDate: subtractDays(1),
+    endDate: addDays(10),
+    candidates: mockMergerCandidates,
+    totalVotes: 456,
+    eligibleVoters: 2500,
+    createdBy: 'admin',
+  },
+  {
+    id: 'e6',
+    title: 'Annual Compensation Review',
+    description: 'Vote on the proposed executive compensation package for the upcoming fiscal year.',
+    status: 'upcoming',
+    startDate: addDays(14),
+    endDate: addDays(28),
+    candidates: [
+      { id: 'comp1', name: 'Approve Package', position: 'Yes', bio: 'Approve the proposed compensation structure with performance bonuses', photo: '' },
+      { id: 'comp2', name: 'Modify Package', position: 'Amend', bio: 'Request modifications to align compensation with industry standards', photo: '' },
+      { id: 'comp3', name: 'Reject Package', position: 'No', bio: 'Reject the proposal and maintain current compensation levels', photo: '' },
+    ],
+    totalVotes: 0,
+    eligibleVoters: 2500,
+    createdBy: 'admin',
+  },
+  {
+    id: 'e7',
+    title: 'Environmental Sustainability Initiative',
+    description: 'Vote on implementing a comprehensive carbon neutrality program by 2030.',
+    status: 'closed',
+    startDate: subtractDays(45),
+    endDate: subtractDays(30),
+    candidates: [
+      { id: 'env1', name: 'Full Implementation', position: 'Yes', bio: 'Commit to full carbon neutrality by 2030 with $50M investment', photo: '' },
+      { id: 'env2', name: 'Phased Approach', position: 'Partial', bio: 'Gradual implementation over 15 years with annual reviews', photo: '' },
+      { id: 'env3', name: 'Decline Initiative', position: 'No', bio: 'Maintain current environmental policies without additional investment', photo: '' },
+    ],
+    totalVotes: 2280,
+    eligibleVoters: 2500,
+    createdBy: 'admin',
+  },
+  {
+    id: 'e8',
+    title: 'Stock Split Proposal',
+    description: 'Vote on a proposed 4-for-1 stock split to increase share accessibility and liquidity.',
+    status: 'closed',
+    startDate: subtractDays(60),
+    endDate: subtractDays(45),
+    candidates: [
+      { id: 'split1', name: 'Approve Split', position: 'Yes', bio: 'Approve the 4-for-1 stock split effective Q1 next year', photo: '' },
+      { id: 'split2', name: 'Reject Split', position: 'No', bio: 'Maintain current share structure', photo: '' },
+    ],
+    totalVotes: 2389,
     eligibleVoters: 2500,
     createdBy: 'admin',
   },
@@ -104,11 +250,31 @@ export const mockVoteResults: Record<string, VoteResult[]> = {
   e1: [
     { candidateId: 'c1', candidateName: 'Sarah Chen', votes: 523, percentage: 42 },
     { candidateId: 'c2', candidateName: 'Michael Roberts', votes: 412, percentage: 33 },
-    { candidateId: 'c3', candidateName: 'Emily Johnson', votes: 312, percentage: 25 },
+    { candidateId: 'c3', candidateName: 'Emily Johnson', votes: 187, percentage: 15 },
+    { candidateId: 'c4', candidateName: 'David Park', votes: 125, percentage: 10 },
   ],
   e3: [
     { candidateId: 'p1', candidateName: 'Approve Budget', votes: 1812, percentage: 85 },
     { candidateId: 'p2', candidateName: 'Reject Budget', votes: 322, percentage: 15 },
+  ],
+  e4: [
+    { candidateId: 'policy1', candidateName: 'Remote Work Policy A', votes: 401, percentage: 45 },
+    { candidateId: 'policy2', candidateName: 'Remote Work Policy B', votes: 312, percentage: 35 },
+    { candidateId: 'policy3', candidateName: 'Remote Work Policy C', votes: 179, percentage: 20 },
+  ],
+  e5: [
+    { candidateId: 'merger1', candidateName: 'Approve Acquisition', votes: 251, percentage: 55 },
+    { candidateId: 'merger2', candidateName: 'Reject Acquisition', votes: 137, percentage: 30 },
+    { candidateId: 'merger3', candidateName: 'Defer Decision', votes: 68, percentage: 15 },
+  ],
+  e7: [
+    { candidateId: 'env1', candidateName: 'Full Implementation', votes: 1254, percentage: 55 },
+    { candidateId: 'env2', candidateName: 'Phased Approach', votes: 798, percentage: 35 },
+    { candidateId: 'env3', candidateName: 'Decline Initiative', votes: 228, percentage: 10 },
+  ],
+  e8: [
+    { candidateId: 'split1', candidateName: 'Approve Split', votes: 2151, percentage: 90 },
+    { candidateId: 'split2', candidateName: 'Reject Split', votes: 238, percentage: 10 },
   ],
 };
 
@@ -118,7 +284,7 @@ export const mockUser: User = {
   name: 'John Smith',
   role: 'voter',
   walletAddress: '0x742d35Cc6634C0532925a3b844Bc9e7595f8fE53',
-  votedElections: ['e3'],
+  votedElections: ['e3', 'e7', 'e8'],
 };
 
 export const mockVotes: Vote[] = [
@@ -129,6 +295,22 @@ export const mockVotes: Vote[] = [
     transactionHash: '0x8f7d3b2e1a4c5f6d9e0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4',
     timestamp: new Date('2024-07-10T14:32:00'),
     blockNumber: 18245678,
+  },
+  {
+    id: 'v2',
+    electionId: 'e7',
+    candidateId: 'env1',
+    transactionHash: '0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4',
+    timestamp: new Date('2024-10-20T09:15:00'),
+    blockNumber: 18356789,
+  },
+  {
+    id: 'v3',
+    electionId: 'e8',
+    candidateId: 'split1',
+    transactionHash: '0x9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6',
+    timestamp: new Date('2024-09-05T16:45:00'),
+    blockNumber: 18267890,
   },
 ];
 
