@@ -14,16 +14,234 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      candidates: {
+        Row: {
+          bio: string | null
+          created_at: string
+          election_id: string
+          id: string
+          name: string
+          party: string | null
+          photo_url: string | null
+          position: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          election_id: string
+          id?: string
+          name: string
+          party?: string | null
+          photo_url?: string | null
+          position?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          election_id?: string
+          id?: string
+          name?: string
+          party?: string | null
+          photo_url?: string | null
+          position?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "candidates_election_id_fkey"
+            columns: ["election_id"]
+            isOneToOne: false
+            referencedRelation: "elections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      elections: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          eligible_voters: number
+          end_date: string
+          id: string
+          start_date: string
+          status: Database["public"]["Enums"]["election_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          eligible_voters?: number
+          end_date: string
+          id?: string
+          start_date: string
+          status?: Database["public"]["Enums"]["election_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          eligible_voters?: number
+          end_date?: string
+          id?: string
+          start_date?: string
+          status?: Database["public"]["Enums"]["election_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+          wallet_address: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+          wallet_address?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          wallet_address?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vote_eligibility: {
+        Row: {
+          created_at: string
+          election_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          election_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          election_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vote_eligibility_election_id_fkey"
+            columns: ["election_id"]
+            isOneToOne: false
+            referencedRelation: "elections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      votes: {
+        Row: {
+          block_hash: string
+          block_number: number
+          candidate_id: string
+          election_id: string
+          id: string
+          timestamp: string
+          transaction_hash: string
+          verified: boolean
+          voter_id: string | null
+        }
+        Insert: {
+          block_hash: string
+          block_number: number
+          candidate_id: string
+          election_id: string
+          id?: string
+          timestamp?: string
+          transaction_hash: string
+          verified?: boolean
+          voter_id?: string | null
+        }
+        Update: {
+          block_hash?: string
+          block_number?: number
+          candidate_id?: string
+          election_id?: string
+          id?: string
+          timestamp?: string
+          transaction_hash?: string
+          verified?: boolean
+          voter_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_candidate_id_fkey"
+            columns: ["candidate_id"]
+            isOneToOne: false
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votes_election_id_fkey"
+            columns: ["election_id"]
+            isOneToOne: false
+            referencedRelation: "elections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "voter" | "observer"
+      election_status: "draft" | "active" | "upcoming" | "closed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +368,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "voter", "observer"],
+      election_status: ["draft", "active", "upcoming", "closed"],
+    },
   },
 } as const
