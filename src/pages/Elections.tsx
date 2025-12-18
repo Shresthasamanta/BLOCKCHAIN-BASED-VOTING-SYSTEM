@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useElections } from '@/contexts/ElectionContext';
 import { Election, ElectionStatus } from '@/types/election';
+import CountdownTimer from '@/components/CountdownTimer';
 
 const statusConfig: Record<ElectionStatus, { label: string; color: string; icon: React.ElementType }> = {
   active: { label: 'Active', color: 'bg-success text-success-foreground', icon: Vote },
@@ -23,7 +24,6 @@ const ElectionCard = ({ election }: { election: Election }) => {
   const config = statusConfig[election.status];
   const StatusIcon = config.icon;
   
-  const daysRemaining = Math.ceil((election.endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
   const participation = Math.round((election.totalVotes / election.eligibleVoters) * 100);
 
   return (
@@ -34,16 +34,21 @@ const ElectionCard = ({ election }: { election: Election }) => {
             <StatusIcon className="w-3 h-3 mr-1" />
             {config.label}
           </Badge>
-          {election.status === 'active' && (
-            <div className="flex items-center text-sm text-muted-foreground">
-              <Clock className="w-4 h-4 mr-1" />
-              {daysRemaining > 0 ? `${daysRemaining} days left` : 'Ends today'}
-            </div>
-          )}
         </div>
-        <CardTitle className="text-xl group-hover:text-primary transition-colors">
+        <CardTitle className="text-xl group-hover:text-primary transition-colors mb-2">
           {election.title}
         </CardTitle>
+        {/* Live Countdown for Active Elections */}
+        {election.status === 'active' && (
+          <div className="mt-2 mb-2 scale-75 origin-left">
+            <CountdownTimer targetDate={election.endDate} label="Voting ends in" />
+          </div>
+        )}
+        {election.status === 'upcoming' && (
+          <div className="mt-2 mb-2 scale-75 origin-left">
+            <CountdownTimer targetDate={election.startDate} label="Voting starts in" />
+          </div>
+        )}
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground text-sm mb-4 line-clamp-2">

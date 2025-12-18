@@ -10,6 +10,8 @@ import {
   BarChart3, Users, CheckCircle, ArrowLeft, Trophy,
   TrendingUp, Clock, PieChart
 } from 'lucide-react';
+import AnimatedResultsChart from '@/components/AnimatedResultsChart';
+import CountdownTimer from '@/components/CountdownTimer';
 
 const Results = () => {
   const { id } = useParams<{ id: string }>();
@@ -116,6 +118,15 @@ const Results = () => {
           </Card>
         </div>
 
+        {/* Live Countdown for Active Elections */}
+        {election.status === 'active' && (
+          <Card className="mb-8 border-primary/20 bg-primary/5">
+            <CardContent className="p-6">
+              <CountdownTimer targetDate={election.endDate} label="Voting ends in" />
+            </CardContent>
+          </Card>
+        )}
+
         {/* Results Chart */}
         <Card className="mb-8">
           <CardHeader>
@@ -125,49 +136,11 @@ const Results = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {results.length > 0 ? (
-              <div className="space-y-6">
-                {results.map((result, index) => {
-                  const isWinner = winner?.candidateId === result.candidateId;
-                  const candidate = election.candidates.find(c => c.id === result.candidateId);
-                  
-                  return (
-                    <div key={result.candidateId} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          {isWinner && (
-                            <Trophy className="w-5 h-5 text-warning" />
-                          )}
-                          <span className="font-medium text-foreground">{result.candidateName}</span>
-                          {candidate?.party && (
-                            <Badge variant="outline" className="text-xs">{candidate.party}</Badge>
-                          )}
-                        </div>
-                        <div className="text-right">
-                          <span className="font-bold text-foreground">{result.percentage}%</span>
-                          <span className="text-muted-foreground ml-2">({result.votes.toLocaleString()} votes)</span>
-                        </div>
-                      </div>
-                      <div className="relative">
-                        <Progress 
-                          value={result.percentage} 
-                          className={`h-8 ${isWinner ? 'bg-warning/20' : 'bg-muted'}`}
-                        />
-                        <div 
-                          className={`absolute inset-0 rounded-full ${isWinner ? 'gradient-primary' : 'bg-primary'}`}
-                          style={{ width: `${result.percentage}%` }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <BarChart3 className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">Results will appear here once voting begins</p>
-              </div>
-            )}
+            <AnimatedResultsChart 
+              results={results} 
+              totalVotes={election.totalVotes}
+              candidates={election.candidates}
+            />
           </CardContent>
         </Card>
 
